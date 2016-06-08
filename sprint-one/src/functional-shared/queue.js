@@ -11,9 +11,11 @@ var Queue = function(...args) {
 };
 
 var queueMethods = {
-  size: () => {
-    return length;
+  size: function() {
+    return this.length;
+  },
+  enqueue: function(value) {
+    this.storage[this.length] = value;
+    this.length++;
   }
 };
-
-Queue.prototype = queueMethods;
