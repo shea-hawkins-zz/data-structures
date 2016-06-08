@@ -4,12 +4,17 @@ var Queue = function() {
   var queue = Object.create(Queue.prototype);
   queue.head = 0;
   queue.tail = 0;
+  queue.storage = {};
   return queue;
 };
 
 var queueMethods = {
   size: function() {
     return this.tail - this.head;
+  },
+  enqueue: function(value) {
+    this.storage[this.tail] = value;
+    this.tail++;
   }
 };
 
