@@ -5,18 +5,24 @@ var Queue = function() {
   var storage = {};
 
   // Implement the methods below
-  var shift = function () {
+  var shift = function (collection) {
     for (var i = length - 1; i >= 0; i--) {
-      storage[i + 1] = storage[i];
+      collection[i + 1] = collection[i];
     }
-    storage[0] = undefined;
+    collection[0] = undefined;
+    return collection;
   };
   someInstance.enqueue = function(value) {
-    storage[length] = value;
+    storage = shift(storage); //As if immutable and following function paradigms
+    storage[0] = value;
     length++;
   };
 
   someInstance.dequeue = function() {
+    var dequeuedValue = storage[length - 1];
+    storage[length - 1] = undefined;
+    length--;
+    return dequeuedValue;
   };
 
   someInstance.size = function() {
