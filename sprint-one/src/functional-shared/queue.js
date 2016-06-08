@@ -1,4 +1,4 @@
-var Queue = function(...args) {
+var Queue = function() {
   // Hey! Rewrite in the new style. Your code will wind up looking very similar,
   // but try not not reference your old code in writing the new style.
   var queue = {};
@@ -12,9 +12,6 @@ var Queue = function(...args) {
 };
 
 var queueMethods = {
-  _shift: function() {
-
-  },
   size: function() {
     return this.tail - this.head;
   },
@@ -23,6 +20,11 @@ var queueMethods = {
     this.tail++;
   },
   dequeue: function() {
-    
+    if (this.tail > this.head) {
+      var dequeued = this.storage[this.head];
+      this.storage[this.head] = undefined;
+      this.head++;
+      return dequeued;
+    }
   }
 };
