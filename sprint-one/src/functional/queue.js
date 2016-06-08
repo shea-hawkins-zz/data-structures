@@ -21,7 +21,7 @@ var Queue = function() {
   someInstance.dequeue = function() {
     var dequeuedValue = storage[length - 1];
     storage[length - 1] = undefined;
-    length--;
+    length !== 0 && length--;
     return dequeuedValue;
   };
 
