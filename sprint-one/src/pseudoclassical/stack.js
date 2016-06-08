@@ -13,3 +13,12 @@ Stack.prototype.push = function(value) {
   this._storage[this._length] = value;
   this._length++;
 };
+
+Stack.prototype.pop = function() {
+  if (this._length > 0) {
+    var removeIndex = --this._length;
+    var poppedValue = this._storage[removeIndex];
+    this._storage[removeIndex] = undefined;
+    return poppedValue;
+  }
+};
