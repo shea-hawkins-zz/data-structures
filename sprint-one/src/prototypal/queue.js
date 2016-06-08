@@ -1,7 +1,7 @@
 var Queue = function() {
   // Hey! Rewrite in the new style. Your code will wind up looking very similar,
   // but try not not reference your old code in writing the new style.
-  var queue = Object.create(Queue.prototype);
+  var queue = Object.create(queueMethods);
   queue.head = 0;
   queue.tail = 0;
   queue.storage = {};
@@ -15,10 +15,16 @@ var queueMethods = {
   enqueue: function(value) {
     this.storage[this.tail] = value;
     this.tail++;
+  },
+  dequeue: function() {
+    if (this.tail > this.head) {
+      var dequeuedValue = this.storage[this.head];
+      this.storage[this.head] = undefined;
+      this.head++;
+      return dequeuedValue;
+    }
   }
 };
-
-Queue.prototype = queueMethods;
 
 
 
