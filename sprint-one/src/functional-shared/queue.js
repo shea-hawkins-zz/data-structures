@@ -3,7 +3,8 @@ var Queue = function(...args) {
   // but try not not reference your old code in writing the new style.
   var queue = {};
   queue.storage = {};
-  queue.length = 0;
+  queue.head = 0;
+  queue.tail = 0;
   Object.keys(queueMethods).forEach(function(key) {
     queue[key] = queueMethods[key];
   });
@@ -11,11 +12,17 @@ var Queue = function(...args) {
 };
 
 var queueMethods = {
+  _shift: function() {
+
+  },
   size: function() {
-    return this.length;
+    return this.tail - this.head;
   },
   enqueue: function(value) {
-    this.storage[this.length] = value;
-    this.length++;
+    this.storage[this.tail] = value;
+    this.tail++;
+  },
+  dequeue: function() {
+    
   }
 };
