@@ -22,4 +22,4 @@ Queue.prototype.dequeue = function() {
     this.head++;
     return dequeuedValue;
   }
-}
+};
