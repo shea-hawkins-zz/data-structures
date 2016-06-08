@@ -10,3 +10,16 @@ Queue.prototype.size = function() {
   return this.tail - this.head;
 };
 
+Queue.prototype.enqueue = function(value) {
+  this.storage[this.tail] = value;
+  this.tail++;
+};
+
+Queue.prototype.dequeue = function() {
+  if (this.tail > this.head) {
+    var dequeuedValue = this.storage[this.head];
+    this.storage[this.head] = undefined;
+    this.head++;
+    return dequeuedValue;
+  }
+}
