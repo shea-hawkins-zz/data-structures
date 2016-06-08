@@ -4,6 +4,8 @@ var Stack = function() {
   var stack = {};
   stack.length = 0;
   stack.storage = {};
+  Object.assign(stack, stackMethods);
+  return stack;
 };
 
 var stackMethods = {
@@ -11,8 +13,16 @@ var stackMethods = {
     return this.length;
   },
   push: function(value) {
-    this.storage[length] = value;
+    this.storage[this.length] = value;
     this.length++;
+  },
+  pop: function() {
+    if (this.length > 0) {
+      var removeIndex = --this.length;
+      var poppedValue = this.storage[removeIndex];
+      this.storage[removeIndex] = undefined;
+      return poppedValue;
+    }
   }
 };
 
