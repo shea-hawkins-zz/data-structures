@@ -14,6 +14,14 @@ var stackMethods = {
   push: function(value) {
     this.storage[this.length] = value;
     this.length++;
+  },
+  pop: function() {
+    if (this.length > 0) {
+      var removeIndex = --this.length;
+      var poppedValue = this.storage[removeIndex];
+      this.storage[removeIndex] = undefined;
+      return poppedValue;
+    }
   }
 };
 
