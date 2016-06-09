@@ -30,10 +30,13 @@ Graph.prototype.hasEdge = function(fromNode, toNode) {
 // Connects two nodes in a graph by adding an edge between them.
 Graph.prototype.addEdge = function(fromNode, toNode) {
   this.nodes[fromNode][toNode] = true;
+  this.nodes[toNode][fromNode] = true;
 };
 
 // Remove an edge between any two specified (by value) nodes.
 Graph.prototype.removeEdge = function(fromNode, toNode) {
+  delete this.nodes[fromNode][toNode];
+  delete this.nodes[toNode][fromNode];
 };
 
 // Pass in a callback which will be executed on each node of the graph.
