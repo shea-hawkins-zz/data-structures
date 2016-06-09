@@ -4,10 +4,7 @@ var LinkedList = function() {
   list.tail = null;
 
   list.addToTail = function(value) {
-    var obj = {
-      value: value,
-      next: null
-    };
+    var obj = Node(value);
     if (list.tail !== null) {
       this.tail.next = obj;
     }
