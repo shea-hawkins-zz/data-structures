@@ -15,6 +15,9 @@ treeMethods.addChild = function(value) {
 };
 
 treeMethods.contains = function(target) {
+  return this.value === target || _.some(this.children, function(child) {
+    return child.contains(target);
+  });
 };
 
 /*
