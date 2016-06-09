@@ -3,28 +3,23 @@
 // Instantiate a new graph
 var Graph = function() {
   var graph = Object.create(Graph.prototype);
-  graph.nodes = [];
+  graph.nodes = {};
   return graph;
 };
 
 // Add a node to the graph, passing in the node's value.
 Graph.prototype.addNode = function(node) {
-  var node = GraphNode(node);
-  this.nodes.push(node);
+  this.nodes[node] = {};
 };
 
 // Return a boolean value indicating if the value passed to contains is represented in the graph.
 Graph.prototype.contains = function(node) {
-  return _.some(this.nodes, function(childNode) {
-    return childNode.value === node;
-  });
+  return this.nodes.hasOwnProperty(node);
 };
 
 // Removes a node from the graph.
 Graph.prototype.removeNode = function(node) {
-  this.nodes = this.nodes.filter(function(childNode) {
-    return childNode.value !== node;
-  });
+  delete this.nodes[node];
 };
 
 // Returns a boolean indicating whether two specified nodes are connected.  Pass in the values contained in each of the two nodes.
@@ -33,6 +28,8 @@ Graph.prototype.hasEdge = function(fromNode, toNode) {
 
 // Connects two nodes in a graph by adding an edge between them.
 Graph.prototype.addEdge = function(fromNode, toNode) {
+  this.nodes[fromNode][toNode] = true;
+  this.nodes[toNode][fromNode] = true;
 };
 
 // Remove an edge between any two specified (by value) nodes.
@@ -43,12 +40,6 @@ Graph.prototype.removeEdge = function(fromNode, toNode) {
 Graph.prototype.forEachNode = function(cb) {
 };
 
-var GraphNode = function(value) {
-  var node = {};
-  node.neighbors = [];
-  node.value = value;
-  return node;
-};
 
 /*
  * Complexity: What is the time complexity of the above functions?
