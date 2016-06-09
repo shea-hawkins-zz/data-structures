@@ -1,9 +1,7 @@
 var Tree = function(value) {
   var newTree = Object.create(treeMethods);
   newTree.value = value;
-
-  // your code here
-  newTree.children = []; // fix me
+  newTree.children = [];
   return newTree;
 };
 
@@ -22,4 +20,6 @@ treeMethods.contains = function(target) {
 
 /*
  * Complexity: What is the time complexity of the above functions?
+ * addChild O(1)
+ * contains O(n)
  */
