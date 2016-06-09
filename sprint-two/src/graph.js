@@ -19,6 +19,9 @@ Graph.prototype.contains = function(node) {
 
 // Removes a node from the graph.
 Graph.prototype.removeNode = function(node) {
+  for (var neighbor in this.nodes[node]) {
+    delete this.nodes[neighbor][node];
+  }
   delete this.nodes[node];
 };
 
