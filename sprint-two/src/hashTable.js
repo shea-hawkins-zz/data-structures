@@ -6,12 +6,8 @@ var HashTable = function() {
   this._usage = 0;
 };
 
-HashTable.prototype.insert = function(k, v) {
-  var index = getIndexBelowMaxForKey(k, this._limit);
-  var node = {
-    key: k,
-    value: v
-  };
+HashTable.prototype._insertNode = function(node) {
+  var index = getIndexBelowMaxForKey(node.key, this._limit);
   var bucket = this._storage.get(index);
   if (bucket === undefined) {
     this._storage.set(index, []);
@@ -23,18 +19,27 @@ HashTable.prototype.insert = function(k, v) {
         return;
       }
     }
-  } 
+  }
+  bucket.push(node); 
+};
+
+HashTable.prototype.insert = function(k, v) {
+  var node = {
+    key: k,
+    value: v
+  };
+  this._insertNode(node);
   this._usage++;
-  bucket.push(node);
   if (this._usage / this._limit >= .75) {
-    this.resizeArray(2);
+    this._resizeArray(2);
   } 
 };
 
 HashTable.prototype.retrieve = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
   var node;
-  var nodes = this._storage.get(index).forEach(function(child) {
+
+  var nodes = (this._storage.get(index) || []).forEach(function(child) {
     if (child.key === k) {
       node = child;
     }
@@ -44,26 +49,35 @@ HashTable.prototype.retrieve = function(k) {
 
 HashTable.prototype.remove = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
-  var hashArray = this._storage.get(index);
-  if (hashArray) {
-    this._storage.set(index, hashArray.filter(function(node) {
-      return node.key !== k;
-    })); 
+  var bucket = this._storage.get(index);
+  if (bucket) {
+    for (var i = 0; i < bucket.length; i++) {
+      if (bucket[i].key === k) {
+        bucket.splice(i, 1); 
+        this._usage--;
+        if (this._usage / this._limit < .25) {
+          this._resizeArray(.5);
+        }
+        return;
+      }
+    }
   }
+
 };
 
-HashTable.prototype.resizeArray = function(factor) {
-  var copyOldToNew = function (bucket) {
+HashTable.prototype._resizeArray = function(factor) {
+  var copyOldToNew = (bucket) => {
     if (bucket) {
-      var index = getIndexBelowMaxForKey(bucket[0].key, max);
-      newStorage.set(index, bucket);
+      for (var i = 0; i < bucket.length; i++) {
+        this._insertNode(bucket[i]);
+      }
     }
   };
+  var oldStorage = this._storage;
   var max = this._limit * factor;
   this._limit = max;
-  var newStorage = LimitedArray(this._limit);
-  this._storage.each(copyOldToNew);
-  this._storage = newStorage;
+  this._storage = LimitedArray(this._limit);
+  oldStorage.each(copyOldToNew);
 };
 
 
