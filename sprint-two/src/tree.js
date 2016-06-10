@@ -29,6 +29,15 @@ treeMethods.removeFromParent = function() {
   this.parent = null;
 };
 
+treeMethods.traverse = function(callback) {
+  if (this.value !== undefined) {
+    callback(this.value);
+  }
+  this.children.forEach(function(child) {
+    child.traverse(callback);
+  });
+};
+
 /*
  * Complexity: What is the time complexity of the above functions?
  * addChild O(1)
