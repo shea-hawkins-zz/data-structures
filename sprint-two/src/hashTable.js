@@ -12,22 +12,20 @@ HashTable.prototype.insert = function(k, v) {
     key: k,
     value: v
   };
-  if (this._storage.get(index) === undefined) {
-    this._storage.set(index, [node]);
-    this._usage++;
+  var bucket = this._storage.get(index);
+  if (bucket === undefined) {
+    this._storage.set(index, []);
+    bucket = this._storage.get(index);
   } else {
-    var bucket = this._storage.get(index);
-    var found = bucket.some(function(item, i) {
-      if (item.key === node.key) {
+    for (var i = 0; i < bucket.length; i++) {
+      if (bucket[i].key === node.key) {
         bucket[i] = node;
-        return true;
+        return;
       }
-    });
-    if (!found) {
-      bucket.push(node);
-      this._usage++;
     }
-  }
+  } 
+  this._usage++;
+  bucket.push(node);
   if (this._usage / this._limit >= .75) {
     this.resizeArray(2);
   } 
