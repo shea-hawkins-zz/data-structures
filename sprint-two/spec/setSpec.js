@@ -25,3 +25,33 @@ describe('set', function() {
   });
 
 });
+
+describe('set datatype handling', function() {
+  var set;
+  
+  beforeEach(function() {
+    set = Set();
+  });
+
+  it('should store numbers as Number()s', function() {
+    set.add(6);
+    expect(set.contains(6)).to.equal(true);
+  });
+  it('should differentiate between Numbers() and Strings', function() {
+    set.add(6);
+    expect(set.contains('6')).to.equal(false);
+  });
+  it('should add numbers and strings separately', function() {
+    set.add(6);
+    set.add('6');
+    expect(set.contains(6)).to.equal(true);
+  });
+  it('should handle object values', function() {
+    set.add({a: 5, b: 6});
+    expect(set.contains({a: 5, b: 6})).to.equal(true);
+  });
+  it('should store array values', function() {
+    set.add([5, 6, 7, 8]);
+    expect(set.contains([5, 6, 7, 8])).to.equal(true);
+  });
+});

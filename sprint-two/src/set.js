@@ -6,16 +6,31 @@ var Set = function() {
 
 var setPrototype = {};
 
+setPrototype._toKeyValue = function(object) {
+  if (typeof object === 'string') {
+    return ['s@-' + object, object];
+  } else if (typeof object === 'number') {
+    return ['n@-' + object, object];
+  } else if (Array.isArray(object)) {
+    return ['a@-' + object, object.slice()];
+  } else if (typeof object === 'object') {
+    return ['o@-' + object, JSON.parse(JSON.stringify(object)];
+  }
+};
+
 setPrototype.add = function(item) {
-  this._storage[item] = true;
+  var [key, value] = this._toKeyValue(item);
+  this._storage[key] = value;
 };
 
 setPrototype.contains = function(item) {
-  return !!this._storage[item];
+  var [key, value] = this._toKeyValue(item);
+  return key in this._storage;
 };
 
 setPrototype.remove = function(item) {
-  delete this._storage[item];
+  var [key, value] = this._toKeyValue(item);
+  delete this._storage[key];
 };
 
 /*
