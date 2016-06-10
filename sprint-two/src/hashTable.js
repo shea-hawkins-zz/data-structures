@@ -14,11 +14,20 @@ HashTable.prototype.insert = function(k, v) {
   };
   if (this._storage.get(index) === undefined) {
     this._storage.set(index, [node]);
+    this._usage++;
   } else {
-    this._storage.get(index).push(node);
+    var bucket = this._storage.get(index);
+    var found = bucket.some(function(item, i) {
+      if (item.key === node.key) {
+        bucket[i] = node;
+        return true;
+      }
+    });
+    if (!found) {
+      bucket.push(node);
+      this._usage++;
+    }
   }
-  this._usage++;
-  console.log(this._usage / this._limit);
   if (this._usage / this._limit >= .75) {
     this.resizeArray(2);
   } 
