@@ -14,7 +14,7 @@ setPrototype._toKeyValue = function(object) {
   } else if (Array.isArray(object)) {
     return ['a@-' + object, object.slice()];
   } else if (typeof object === 'object') {
-    return ['o@-' + object, JSON.parse(JSON.stringify(object)];
+    return ['o@-' + object, JSON.parse(JSON.stringify(object))];
   }
 };
 

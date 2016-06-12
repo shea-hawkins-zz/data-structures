@@ -11,7 +11,8 @@ var PrefixTree = function() {
   return tree;
 };
 
-var PrefixTreeDictionary =       {
+
+var PrefixTreeDictionary = {
   'a': 2,
   'b': 2,
   'c': 2,
@@ -41,15 +42,38 @@ var PrefixTreeDictionary =       {
 };
 
 PrefixTree.prototype._map = function(word) {
-  word.split('').map(function(letter) {
-
+  return word.split('').map(function(letter) {
+    return PrefixTreeDictionary[letter];
   });
 };
 
-PrefixTree.prototype.insert = function() {
-
+PrefixTree.prototype._getNodeFromPath = function(path) {
+  var node = this.root;
+  path.forEach(function(number) {
+    if (!node.children[number]) {
+      node.children[number] = PrefixNode();
+    }
+    node = node.children[number];
+  });
+  return node;
 };
 
-PrefixTree.prototype.autocomplete = function() {
+PrefixTree.prototype.insert = function(word) {
+  var path = this._map(word);
+  var node = this._getNodeFromPath(path);
+  node.words.push(word);
+};
 
+
+PrefixTree.prototype.autocomplete = function(path) {
+  var traversal = function(node) {
+    var words = node.words.slice();
+    Object.keys(node.children).forEach(function(key) {
+      var child = node.children[key];
+      words.push.apply(words, traversal(child));
+    });
+    return words;
+  };
+  var node = this._getNodeFromPath(path);
+  return traversal(node);
 };

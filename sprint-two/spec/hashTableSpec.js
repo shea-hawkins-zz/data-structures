@@ -65,16 +65,10 @@ describe('hashTable', function() {
     });
     expect(hashTable._limit).to.equal(16);
     hashTable.remove('George');
-
-      console.log(hashTable._limit, hashTable._usage);
     hashTable.remove('Dr.');
-      console.log(hashTable._limit);
     hashTable.remove('Steven');
-      console.log(hashTable._limit);
     hashTable.remove('John');
-      console.log(hashTable._limit);
     hashTable.remove('Mr.');
-      console.log(hashTable._limit);
     expect(hashTable._limit).to.equal(8);
   });
 });
